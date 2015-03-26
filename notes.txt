@@ -2,4 +2,5 @@
 * install sshpass
 * ansible all --user rkurr --module-name ping --ask-pass 
 * ansible all --user rkurr --ask-pass --args "/bin/echo hello" 
+* ansible docker --module-name setup
 
