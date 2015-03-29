@@ -11,6 +11,12 @@
           - python-dev 
     - easy_install: name=pip 
 
+- name: Ansible
+  hosts: ansible-control 
+  tasks:
+      - name: Install Ansible 
+        pip: name=ansible state=latest
+
 - name: Docker Daemon
   hosts: all 
   tasks:
@@ -30,4 +36,28 @@
         service: name=docker state=restarted
       - name: Install Docker Compose
         pip: name=docker-compose state=latest
+
+- name: Install Redis Containers
+  hosts: docker-hosts 
+  tasks:
+      - name: Redis Data
+        docker:
+            name: redis-data
+            image: busybox
+            state: present
+            volumes:
+            - /data
+      - name: Redis
+        docker:
+            name: redis
+            hostname: redis
+            image: redis
+            command: redis-server --appendonly yes
+            state: started
+            restart_policy: always
+            pull: always
+            ports:
+            - "6379:6379"
+            volumes_from:
+            - redis-data
 
