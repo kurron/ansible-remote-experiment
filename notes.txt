@@ -4,3 +4,4 @@
 * ansible all --user rkurr --ask-pass --args "/bin/echo hello" 
 * ansible docker --module-name setup
 
+* you have to enable root SSH access -- http://askubuntu.com/questions/469143/how-to-enable-ssh-root-access-on-ubuntu-14-04
