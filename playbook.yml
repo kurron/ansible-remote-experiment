@@ -1,6 +1,16 @@
 ---
 - hosts: all
   tasks:
-    - name: test connection
-      ping:
-      remote_user: rkurr
+#   - name: test connection
+#     ping:
+#     remote_user: rkurr
+
+    - name: Install Python support
+      apt: "name={{ item }} state=present"
+      with_items:
+          - python-apt
+          - apt-transport-https
+          - python-setuptools
+          - python-dev 
+    - easy_install: name=pip 
+
