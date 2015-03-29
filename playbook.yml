@@ -10,6 +10,7 @@
           - python-setuptools
           - python-dev 
     - easy_install: name=pip 
+    - apt: name=git state=present
 
 - name: Ansible
   hosts: ansible-control 
@@ -17,47 +18,12 @@
       - name: Install Ansible 
         pip: name=ansible state=latest
 
-- name: Docker Daemon
-  hosts: all 
-  tasks:
-      - name: Install Docker keys
-        apt_key: state=present keyserver=keyserver.ubuntu.com id=36A1D7869245C8950F966E92D8576A8BA88D21E9
-      - name: Install Docker repository
-        apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=present
-      - name: Install Docker
-        apt: name=lxc-docker state=latest update_cache=true cache_valid_time=600
-      - name: Add rkurr to the docker group
-        user: name=rkurr state=present groups=docker
-      - name: Set Memory and Swap Accounting
-        lineinfile: dest=/etc/default/grub regexp='^GRUB_CMDLINE_LINUX=""' line='GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"'
-      - name: Rebuild GRUB
-        command: update-grub
-      - name: Restart Docker
-        service: name=docker state=restarted
-      - name: Install Docker Compose
-        pip: name=docker-compose state=latest
-
-- name: Install Redis Containers
+- name: Docker Containers
   hosts: docker-hosts 
   tasks:
-      - name: Redis Data
-        docker:
-            name: redis-data
-            image: busybox
-            state: present
-            volumes:
-            - /data
-      - name: Redis
-        docker:
-            name: redis
-            hostname: redis
-            image: redis
-            command: redis-server --appendonly yes
-            state: started
-            restart_policy: always
-            pull: always
-            ports:
-            - "6379:6379"
-            volumes_from:
-            - redis-data
-
+      - name: Create Pull Directory 
+        file: path=/opt/git state=directory
+      - name: Copy Inventory File 
+        copy: src=docker-host.ini dest=/tmp/inventory.ini
+      - name: Run Ansible Pull 
+        command: /usr/local/bin/ansible-pull --checkout master --directory /opt/ansible-pull --inventory-file=/tmp/inventory.ini --module-name=git --only-if-changed --url=https://github.com/kurron/ansible-pull.git --verbose playbook.yml 

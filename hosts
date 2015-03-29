@@ -7,4 +7,5 @@ docker
 
 [ansible-control]
 atlantis
+docker
 stargate
