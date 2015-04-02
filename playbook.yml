@@ -18,6 +18,14 @@
       - name: Install Ansible 
         pip: name=ansible state=latest
 
+- name: Populate Host File 
+  hosts: docker-hosts 
+  tasks:
+      - name: Copy hostname script to a safe place
+        copy: src=scripts/add-host-name.sh dest=/tmp/add-host-name.sh owner=root group=root mode=755 backup=no
+      - name: Add nas to hostfile
+        command: /tmp/add-host-name.sh nas 192.168.1.234
+
 - name: Docker Containers
   hosts: docker-hosts 
   tasks:
