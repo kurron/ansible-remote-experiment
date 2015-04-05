@@ -3,6 +3,7 @@ stargate ansible_ssh_host=192.168.1.227
 atlantis ansible_ssh_host=192.168.1.229
 
 [docker-host]
+atlantis
 docker
 
 [newrelic-server]

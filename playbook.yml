@@ -27,7 +27,7 @@
         command: /tmp/add-host-name.sh nas 192.168.1.234
 
 - name: Set Up Plex Media Server 
-  hosts: plex-hosts 
+  hosts: plex-host 
   tasks:
       - name: Create the NAS mount point 
         file: path=/mnt/nas state=directory
@@ -48,9 +48,13 @@
 - name: Docker Containers
   hosts: docker-host 
   tasks:
+      - name: Create the vagrant group just to work with ansible-pull
+        group: name=vagrant state=present
+      - name: Create the vagrant user just to work with ansible-pull
+        user: name=vagrant group=vagrant  
       - name: Create Pull Directory 
         file: path=/opt/git state=directory
       - name: Copy Inventory File 
         copy: src=docker-host.ini dest=/tmp/inventory.ini
       - name: Run Ansible Pull 
-        command: /usr/local/bin/ansible-pull --checkout master --directory /opt/ansible-pull --inventory-file=/tmp/inventory.ini --module-name=git --only-if-changed --url=https://github.com/kurron/ansible-pull.git --verbose playbook.yml 
+        command: /usr/local/bin/ansible-pull --checkout master --directory /opt/ansible-pull --inventory-file=/tmp/inventory.ini --module-name=git --url=https://github.com/kurron/ansible-pull.git --verbose playbook.yml 
