@@ -71,6 +71,7 @@
         copy: src=scripts/append-line-to-bashrc.sh dest=/tmp/append-line-to-bashrc.sh owner=root group=root mode=755 backup=no
       - name: set editor to VI
         command: /tmp/append-line-to-bashrc.sh editor 'set -o vi'
+      - apt: name=sshpass state=present
 
 - name: Set Up Plex Media Server 
   hosts: plex-host 
