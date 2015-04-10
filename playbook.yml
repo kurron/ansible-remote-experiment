@@ -104,3 +104,31 @@
             - plex-data
             volumes:
             - /mnt/nas:/data
+
+- name: Set Up BitTorrent Client 
+  hosts: transmission-host
+  tasks:
+      - name: Transmission Data
+        docker:
+            name: transmission-data
+            image: busybox
+            state: present
+            volumes:
+            - /var/lib/transmission-daemon 
+      - name: Transmission
+        docker:
+            name: transmission
+            hostname: transmission
+            image: dperson/transmission 
+            state: started
+            restart_policy: always
+            pull: always
+            ports:
+            - "9091:9091"
+            - "51413:51413"
+            volumes_from:
+            - transmission-data
+            env:
+                TRUSER: admin
+                TRPASSWD: admin
+                TIMEZONE: UTC

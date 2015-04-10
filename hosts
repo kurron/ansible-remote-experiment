@@ -20,3 +20,8 @@ stargate
 [plex-host]
 atlantis
 docker
+
+[transmission-host]
+atlantis
+docker
+stargate
