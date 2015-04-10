@@ -23,8 +23,20 @@
   tasks:
       - name: Copy hostname script to a safe place
         copy: src=scripts/add-host-name.sh dest=/tmp/add-host-name.sh owner=root group=root mode=755 backup=no
+      - name: Add batcave to hostfile
+        command: /tmp/add-host-name.sh batcave 192.168.1.222
+      - name: Add stargate to hostfile
+        command: /tmp/add-host-name.sh stargate 192.168.1.227
+      - name: Add atlantis to hostfile
+        command: /tmp/add-host-name.sh atlantis 192.168.1.229
+      - name: Add docker to hostfile
+        command: /tmp/add-host-name.sh docker 192.168.1.233
       - name: Add nas to hostfile
         command: /tmp/add-host-name.sh nas 192.168.1.234
+      - name: Add pi to hostfile
+        command: /tmp/add-host-name.sh pi 192.168.1.235
+      - name: Add pi2 to hostfile
+        command: /tmp/add-host-name.sh pi2 192.168.1.236
 
 - name: Set Up Plex Media Server 
   hosts: plex-host 
