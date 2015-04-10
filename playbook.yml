@@ -98,4 +98,4 @@
             volumes_from:
             - plex-data
             volumes:
-            - /mnt/nas/Videos/H.264:/data
+            - /mnt/nas:/data
