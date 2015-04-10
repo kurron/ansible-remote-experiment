@@ -71,12 +71,9 @@
       - name: Run Ansible Pull 
         command: /usr/local/bin/ansible-pull --checkout master --directory /opt/ansible-pull --inventory-file=/tmp/inventory.ini --module-name=git --url=https://github.com/kurron/ansible-pull.git --verbose playbook.yml 
 
-- name: Add rkurr account 
+- name: Customize rkurr account 
   hosts: all
   tasks:
-      - name: create the rkurr group 
-        group: name=rkurr state=present
-      - name: create the rkurr account 
-        user: name=rkurr group=rkurr groups=docker state=present password=$6$SB1Y7cZCD$fo4gGCQsetRe0LI0OIS5anPpv0olkqNPrGK.lzfpCokh9XETvbA9FF58mDrLLbggQe85t3Qqix9oZLT/Ct6hS.
       - name: Copy Git configuration file
         copy: src=files/.gitconfig dest=/home/rkurr/.gitconfig owner=rkurr group=rkurr mode=644 backup=no
+      - user: name=rkurr groups=docker
