@@ -38,16 +38,6 @@
       - name: Add pi2 to hostfile
         command: /tmp/add-host-name.sh pi2 192.168.1.236
 
-- name: Set Up Plex Media Server 
-  hosts: plex-host 
-  tasks:
-      - name: Create the NAS mount point 
-        file: path=/mnt/nas state=directory
-      - name: Install NFS packages 
-        apt: name=nfs-common state=present 
-      - name: Mount NAS drive 
-        mount: fstype=nfs name=/mnt/nas src=nas:/media state=mounted opts=ro
-
 - name: Install Newrelic Server Agent 
   hosts: newrelic-server 
   tasks:
@@ -77,3 +67,14 @@
       - name: Copy Git configuration file
         copy: src=files/.gitconfig dest=/home/rkurr/.gitconfig owner=rkurr group=rkurr mode=644 backup=no
       - user: name=rkurr groups=docker
+
+- name: Set Up Plex Media Server 
+  hosts: plex-host 
+  tasks:
+      - name: Create the NAS mount point 
+        file: path=/mnt/nas state=directory
+      - name: Install NFS packages 
+        apt: name=nfs-common state=present 
+      - name: Mount NAS drive 
+        mount: fstype=nfs name=/mnt/nas src=nas:/media state=mounted opts=ro
+
