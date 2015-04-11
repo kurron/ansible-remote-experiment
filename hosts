@@ -17,6 +17,11 @@ atlantis
 docker
 stargate
 
+[bittorent-sync-container]
+atlantis
+docker
+stargate
+
 [plex-host]
 atlantis
 docker
