@@ -11,6 +11,8 @@
           - python-dev 
     - easy_install: name=pip 
     - apt: name=git state=present
+    - apt: name=tmux state=present
+    - apt: name=iftop state=present
 
 - name: Ansible
   hosts: ansible-control 
