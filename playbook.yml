@@ -132,6 +132,7 @@
             - "32400:32400"
             volumes_from:
             - plex-data
+            - btsync-data
             volumes:
             - /mnt/nas:/data
 
@@ -162,3 +163,27 @@
                 TRUSER: admin
                 TRPASSWD: admin
                 TIMEZONE: UTC
+
+- name: Set Up Apt Cache Server
+  hosts: apt-cache 
+  tasks:
+      - name: Apt Cache Data
+        docker:
+            name: apt-cache-data
+            image: busybox
+            state: present
+            volumes:
+            - /var/cache/apt-cacher 
+      - name: Apt Cache
+        docker:
+            name: apt-cache
+            hostname: apt-cache
+            image: clue/apt-cacher 
+            state: started
+            restart_policy: always
+            pull: always
+            ports:
+            - "3142:3142"
+            volumes_from:
+            - apt-cache-data
+

@@ -31,3 +31,6 @@ stargate
 atlantis
 docker
 stargate
+
+[apt-cache]
+stargate
