@@ -94,6 +94,7 @@
             state: started
             restart_policy: always
             pull: always
+            net: host
             ports:
             - "1234:1234"
             - "8888:8888"
@@ -157,6 +158,7 @@
             ports:
             - "9091:9091"
             - "51413:51413"
+            net: host
             volumes_from:
             - transmission-data
             env:
