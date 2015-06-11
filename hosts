@@ -34,3 +34,8 @@ stargate
 
 [apt-cache]
 stargate
+
+[terraform-box]
+atlantis
+docker
+stargate
