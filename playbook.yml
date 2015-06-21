@@ -62,6 +62,8 @@
         copy: src=docker-host.ini dest=/tmp/inventory.ini
       - name: Run Ansible Pull 
         command: /usr/local/bin/ansible-pull --checkout master --directory /opt/ansible-pull --inventory-file=/tmp/inventory.ini --module-name=git --url=https://github.com/kurron/ansible-pull.git --verbose playbook.yml 
+      - name: Add the newrelic user to the docker group 
+        user: name=rewrelic groups=docker
 
 - name: Customize rkurr account 
   hosts: all
