@@ -8,6 +8,7 @@
 ---
 - name: Python 
   hosts: all
+  sudo: yes
   tasks:
     - name: Install Python support
       apt: "name={{ item }} state=present"
@@ -23,12 +24,14 @@
 
 - name: Ansible
   hosts: ansible-control 
+  sudo: yes
   tasks:
       - name: Install Ansible 
-        pip: name=ansible state=latest
+        pip: name=ansible state=latest extra_args="--upgrade"
 
 - name: Populate Host File 
   hosts: docker-host 
+  sudo: yes
   tasks:
       - name: Add batcave to hostfile
         lineinfile: dest=/etc/hosts line="192.168.1.222 batcave" 
@@ -47,6 +50,7 @@
 
 - name: Install Newrelic Server Agent 
   hosts: newrelic-server 
+  sudo: yes
   tasks:
       - apt_repository: repo='deb http://apt.newrelic.com/debian/ newrelic non-free' state=present
       - apt_key: url=https://download.newrelic.com/548C16BF.gpg state=present
@@ -56,6 +60,7 @@
  
 - name: Docker Containers
   hosts: docker-host 
+  sudo: yes
   tasks:
       - name: Create the vagrant group just to work with ansible-pull
         group: name=vagrant state=present
@@ -72,6 +77,7 @@
 
 - name: Customize rkurr account 
   hosts: all
+  sudo: yes
   tasks:
       - name: Copy Git configuration file
         copy: src=files/.gitconfig dest=/home/rkurr/.gitconfig owner=rkurr group=rkurr mode=644 backup=no
@@ -84,6 +90,7 @@
 
 - name: Install BitTorrent Sync Docker Containers
   hosts: bittorent-sync-container
+  sudo: yes
   tasks:
       - name: BitTorrent Sync Data
         docker:
@@ -113,6 +120,7 @@
 
 - name: Set Up Plex Media Server 
   hosts: plex-host 
+  sudo: yes
   tasks:
       - name: Create the NAS mount point 
         file: path=/mnt/nas state=directory
@@ -146,6 +154,7 @@
 
 - name: Set Up BitTorrent Client 
   hosts: transmission-host
+  sudo: yes
   tasks:
       - name: Transmission Data
         docker:
@@ -175,6 +184,7 @@
 
 - name: Set Up Apt Cache Server
   hosts: apt-cache 
+  sudo: yes
   tasks:
       - name: Apt Cache Data
         docker:
@@ -198,6 +208,7 @@
 
 - name: Use Apt Cache Server
   hosts: all 
+  sudo: yes
   tasks:
       - name: Copy apt configuration file 
         copy: src=files/01proxy dest=/etc/apt/apt.conf.d/01proxy owner=root group=root mode=644 backup=no
