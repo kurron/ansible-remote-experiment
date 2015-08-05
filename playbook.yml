@@ -1,3 +1,10 @@
+#!/usr/bin/env ansible-playbook
+
+# This playbook is provision an Ubuntu 14.04 server so that it can run various Docker containers
+# In order for this to work the public key must be set up, eg ssh-copy-id -i id_rsa.pub user@192.168.1.2
+# Obviously, Ansible must be installed on the box running this script.  You also have to have rigged the box
+# being provisioned to have passwordless sudo or you have to have Ansible ask you for the passphrase.
+
 ---
 - name: Python 
   hosts: all
