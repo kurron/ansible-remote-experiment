@@ -13,9 +13,6 @@ docker
 stargate
 
 [ansible-control]
-atlantis
-docker
-stargate
 
 [bittorent-sync-container]
 atlantis
